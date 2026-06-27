@@ -24,6 +24,42 @@ __recovery/
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
+
+# Lazarus / Free Pascal compiler generated files
+*.ppu
+*.o
+*.or
+*.a
+*.so
+*.compiled
+*.rst
+*.lrs
+ppas.sh
+ppas.bat
+link.res
+
+# Lazarus debug files
+*.dbg
+
+# Lazarus backup files
+*.bak
+*.bak1
+*.orig
+*.lpi~
+*.lpr~
+*.lfm~
+*.pas~
+*.inc~
+*.pp~
+*.po~
+
+# Lazarus compiler output folders
+lib/
+units/
+
+# Common backup folders
+backup/
+
 Beta/Demos/Lazarus/Lazarus.dbg
 Beta/Demos/Lazarus/Lazarus.exe
 /Beta/Demos/Lazarus/lib
