@@ -1,0 +1,130 @@
+object Form1: TForm1
+  Left = 642
+  Height = 373
+  Top = 263
+  Width = 508
+  Caption = 'Form1'
+  ClientHeight = 373
+  ClientWidth = 508
+  Menu = MainMenu1
+  LCLVersion = '4.6.0.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 30
+    Top = 8
+    Width = 120
+    Caption = 'Hello World'
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 22
+    Top = 39
+    Width = 315
+    Caption = 'This app is created with D2Bridge Framework'
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 19
+    Top = 65
+    Width = 141
+    Caption = 'by Talis Jonatas  Gomes'
+  end
+  object btnrecarregar: TButton
+    Left = 216
+    Height = 25
+    Top = 128
+    Width = 189
+    Caption = 'btnrecarregar'
+    TabOrder = 0
+    OnClick = btnrecarregarClick
+  end
+  object Memo1: TMemo
+    Left = 27
+    Height = 90
+    Top = 136
+    Width = 150
+    Lines.Strings = (
+      '[{"nome":"Ana Carolina Mendes","email":"ana.mendes@empresa.com","cargo":"Gerente de Projetos","departamento":"TI","status":"Ativo","salario":12500,"telefone":"(11) 99123-'
+      '4567","admissao":"10/03/2018","cidade":"São Paulo"},{"nome":"Bruno Ferreira Lima","email":"bruno.lima@empresa.com","cargo":"Desenvolvedor '
+      'Sênior","departamento":"TI","status":"Ativo","salario":11800,"telefone":"(11) 98234-5678","admissao":"22/07/2019","cidade":"São Paulo"},{"nome":"Carla Rodrigues '
+      'Silva","email":"carla.silva@empresa.com","cargo":"Analista Financeiro","departamento":"Financeiro","status":"Férias","salario":8200,"telefone":"(21) 97345-'
+      '6789","admissao":"15/01/2020","cidade":"Rio de Janeiro"},{"nome":"Diego Alves Santos","email":"diego.santos@empresa.com","cargo":"Designer '
+      'UX/UI","departamento":"Criação","status":"Ativo","salario":9500,"telefone":"(31) 96456-7890","admissao":"03/05/2021","cidade":"Belo Horizonte"},{"nome":"Eduarda '
+      'Monteiro","email":"eduarda.mont@empresa.com","cargo":"Coord. de RH","departamento":"RH","status":"Ativo","salario":10200,"telefone":"(41) 95567-'
+      '8901","admissao":"08/11/2017","cidade":"Curitiba"},{"nome":"Felipe Costa Gomes","email":"felipe.gomes@empresa.com","cargo":"Vendedor '
+      'Externo","departamento":"Comercial","status":"Ativo","salario":6800,"telefone":"(51) 94678-9012","admissao":"20/09/2022","cidade":"Porto Alegre"},{"nome":"Gabriela Nunes '
+      'Pinto","email":"gabi.nunes@empresa.com","cargo":"Estagiária de Marketing","departamento":"Marketing","status":"Ativo","salario":2200,"telefone":"(61) 93789-'
+      '0123","admissao":"01/02/2024","cidade":"Brasília"},{"nome":"Henrique Duarte","email":"henrique.d@empresa.com","cargo":"Analista de '
+      'Sistemas","departamento":"TI","status":"Afastado","salario":9000,"telefone":"(71) 92890-1234","admissao":"14/06/2019","cidade":"Salvador"},{"nome":"Isabela '
+      'Martins","email":"isa.martins@empresa.com","cargo":"Contadora","departamento":"Financeiro","status":"Ativo","salario":8700,"telefone":"(81) 91901-'
+      '2345","admissao":"30/04/2016","cidade":"Recife"},{"nome":"João Pedro Ribeiro","email":"jp.ribeiro@empresa.com","cargo":"Técnico de '
+      'Suporte","departamento":"TI","status":"Ativo","salario":5400,"telefone":"(85) 90012-3456","admissao":"12/08/2023","cidade":"Fortaleza"},{"nome":"Karina Lopes '
+      'Vieira","email":"karina.lv@empresa.com","cargo":"Advogada Trabalhista","departamento":"Jurídico","status":"Ativo","salario":13000,"telefone":"(48) 99123-'
+      '4567","admissao":"05/03/2015","cidade":"Florianópolis"},{"nome":"Lucas Tavares Ramos","email":"lucas.ramos@empresa.com","cargo":"Analista de '
+      'Dados","departamento":"TI","status":"Férias","salario":10500,"telefone":"(19) 98234-5678","admissao":"17/10/2020","cidade":"Campinas"},{"nome":"Marina '
+      'Oliveira","email":"marina.oli@empresa.com","cargo":"Assistente Administrativa","departamento":"Administrativo","status":"Ativo","salario":3800,"telefone":"(27) 97345-'
+      '6789","admissao":"25/01/2022","cidade":"Vitória"},{"nome":"Nicolas Barbosa","email":"nicolas.b@empresa.com","cargo":"Engenheiro de '
+      'Software","departamento":"TI","status":"Ativo","salario":14200,"telefone":"(62) 96456-7890","admissao":"09/07/2018","cidade":"Goiânia"},{"nome":"Patrícia Souza '
+      'Dias","email":"patricia.sd@empresa.com","cargo":"Diretora Comercial","departamento":"Comercial","status":"Ativo","salario":18500,"telefone":"(11) 95567-'
+      '8901","admissao":"01/02/2013","cidade":"São Paulo"},{"nome":"Rafael Cunha Borges","email":"rafael.cb@empresa.com","cargo":"Auxiliar de '
+      'Logística","departamento":"Logística","status":"Inativo","salario":3200,"telefone":"(67) 94678-9012","admissao":"18/11/2021","cidade":"Campo Grande"},{"nome":"Sofia Almeida '
+      'Teixeira","email":"sofia.at@empresa.com","cargo":"Social Media","departamento":"Marketing","status":"Ativo","salario":5800,"telefone":"(91) 93789-'
+      '0123","admissao":"06/04/2023","cidade":"Belém"},{"nome":"Thiago Pereira Rocha","email":"thiago.pr@empresa.com","cargo":"Gerente de '
+      'Vendas","departamento":"Comercial","status":"Ativo","salario":11000,"telefone":"(84) 92890-1234","admissao":"22/09/2017","cidade":"Natal"},{"nome":"Valentina '
+      'Castro","email":"val.castro@empresa.com","cargo":"Psicóloga Organizacional","departamento":"RH","status":"Ativo","salario":9300,"telefone":"(65) 91901-'
+      '2345","admissao":"13/06/2021","cidade":"Cuiabá"},{"nome":"William Azevedo '
+      'Pires","email":"will.ap@empresa.com","cargo":"DBA","departamento":"TI","status":"Ativo","salario":12000,"telefone":"(98) 90012-3456","admissao":"28/02/2019","cidade":"São Luís"}]'
+    )
+    TabOrder = 1
+  end
+  object MainMenu1: TMainMenu
+    Left = 384
+    Top = 32
+    object Module11: TMenuItem
+      Caption = 'Main'
+      OnClick = Module11Click
+    end
+    object AppModule21: TMenuItem
+      Caption = 'App Module 2'
+    end
+    object CoreModules1: TMenuItem
+      Caption = 'Core Modules'
+      object CoreModule11: TMenuItem
+        Caption = 'Core Module 1'
+      end
+      object CoreModule21: TMenuItem
+        Caption = 'Core Module 2'
+      end
+    end
+    object Modules1: TMenuItem
+      Caption = 'Modules'
+      object Module12: TMenuItem
+        Caption = 'Module 1'
+      end
+      object Module21: TMenuItem
+        Caption = 'Module 2'
+      end
+      object SubModules1: TMenuItem
+        Caption = 'Sub Modules'
+        object SubModule11: TMenuItem
+          Caption = 'SubModule 1'
+        end
+        object SubModule21: TMenuItem
+          Caption = 'SubModule 2'
+        end
+        object SubModule31: TMenuItem
+          Caption = 'SubModule 3'
+        end
+      end
+    end
+  end
+end

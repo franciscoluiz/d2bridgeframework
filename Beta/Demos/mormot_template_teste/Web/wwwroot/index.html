@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Listagem de Colaboradores</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-card: #181a20;
+      --bg-card-hover: #1e2028;
+      --bg-input: #23252d;
+      --border-color: #2a2d37;
+      --border-accent: #3b3f4a;
+      --text-primary: #e8eaed;
+      --text-secondary: #9ba1b0;
+      --text-muted: #6b7280;
+      --accent-blue: #4f8ff7;
+      --accent-blue-soft: rgba(79, 143, 247, 0.12);
+      --accent-green: #34d399;
+      --accent-green-soft: rgba(52, 211, 153, 0.12);
+      --accent-red: #f87171;
+      --accent-red-soft: rgba(248, 113, 113, 0.12);
+      --accent-amber: #fbbf24;
+      --accent-amber-soft: rgba(251, 191, 36, 0.12);
+      --accent-purple: #a78bfa;
+      --accent-purple-soft: rgba(167, 139, 250, 0.12);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-card);
+    }
+
+    .page-header .title-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .page-header .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-blue-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--accent-blue);
+    }
+
+    .page-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .page-header .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-header:hover {
+      border-color: var(--border-accent);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+
+    .btn-header.primary {
+      background: var(--accent-blue);
+      color: #fff;
+      border-color: var(--accent-blue);
+    }
+
+    .btn-header.primary:hover {
+      background: #3a7be0;
+      border-color: #3a7be0;
+    }
+
+    /* ── STATS CARDS ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 24px 32px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .stat-card .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .stat-card .stat-change {
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-change.up {
+      color: var(--accent-green);
+    }
+
+    .stat-change.down {
+      color: var(--accent-red);
+    }
+
+    /* ── TABLE CONTAINER ── */
+    .table-container {
+      margin: 0 32px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .table-toolbar .tool-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-toolbar .tool-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── DATATABLE OVERRIDES ── */
+    .dataTables_wrapper {
+      padding: 0 !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+      display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_length {
+      display: none;
+    }
+
+    table.dataTable {
+      border-collapse: collapse !important;
+      width: 100% !important;
+      margin: 0 !important;
+      --bs-table-bg: transparent !important;
+      --bs-table-color: var(--text-primary) !important;
+      --bs-table-striped-bg: transparent !important;
+      --bs-table-hover-bg: var(--bg-card-hover) !important;
+      --bs-table-border-color: var(--border-color) !important;
+    }
+
+    table.dataTable thead th {
+      background: var(--bg-input) !important;
+      color: var(--text-muted) !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.8px !important;
+      padding: 12px 16px !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      border-top: none !important;
+      white-space: nowrap;
+    }
+
+    table.dataTable thead th:first-child {
+      padding-left: 20px !important;
+    }
+
+    table.dataTable tbody td {
+      padding: 14px 16px !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      border-top: none !important;
+      font-size: 13.5px;
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+
+    table.dataTable tbody td:first-child {
+      padding-left: 20px !important;
+    }
+
+    table.dataTable tbody tr {
+      background: transparent !important;
+      transition: background 0.15s;
+    }
+
+    table.dataTable tbody tr:hover {
+      background: var(--bg-card-hover) !important;
+    }
+
+    table.dataTable tbody tr.odd {
+      background: transparent !important;
+    }
+
+    table.dataTable tbody tr.odd:hover {
+      background: var(--bg-card-hover) !important;
+    }
+
+    table.dataTable.stripe tbody tr.odd,
+    table.dataTable.display tbody tr.odd {
+      background-color: transparent !important;
+    }
+
+    /* Sorting icons */
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+      background-image: none !important;
+    }
+
+    table.dataTable thead .sorting_asc::after {
+      content: ' ▲';
+      font-size: 9px;
+      color: var(--accent-blue);
+    }
+
+    table.dataTable thead .sorting_desc::after {
+      content: ' ▼';
+      font-size: 9px;
+      color: var(--accent-blue);
+    }
+
+    table.dataTable thead .sorting::after {
+      content: ' ↕';
+      font-size: 9px;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate {
+      padding: 14px 20px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      background: var(--bg-input) !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-secondary) !important;
+      border-radius: 6px !important;
+      margin: 0 2px !important;
+      padding: 5px 12px !important;
+      font-size: 12px !important;
+      font-family: 'DM Sans', sans-serif !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: var(--bg-card-hover) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-accent) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+      background: var(--accent-blue) !important;
+      border-color: var(--accent-blue) !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+      opacity: 0.3 !important;
+    }
+
+    .dataTables_info {
+      color: var(--text-muted) !important;
+      font-size: 12px !important;
+      padding: 14px 20px !important;
+    }
+
+    /* ── BADGES / STATUS ── */
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-status .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .badge-ativo {
+      background: var(--accent-green-soft);
+      color: var(--accent-green);
+    }
+
+    .badge-ativo .dot {
+      background: var(--accent-green);
+    }
+
+    .badge-inativo {
+      background: var(--accent-red-soft);
+      color: var(--accent-red);
+    }
+
+    .badge-inativo .dot {
+      background: var(--accent-red);
+    }
+
+    .badge-ferias {
+      background: var(--accent-amber-soft);
+      color: var(--accent-amber);
+    }
+
+    .badge-ferias .dot {
+      background: var(--accent-amber);
+    }
+
+    .badge-afastado {
+      background: var(--accent-purple-soft);
+      color: var(--accent-purple);
+    }
+
+    .badge-afastado .dot {
+      background: var(--accent-purple);
+    }
+
+    /* ── DEPARTAMENTO TAG ── */
+    .tag-depto {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    /* ── AVATAR ── */
+    .cell-pessoa {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: #fff;
+    }
+
+    .cell-pessoa .info .nome {
+      font-weight: 600;
+      font-size: 13.5px;
+      line-height: 1.2;
+    }
+
+    .cell-pessoa .info .email {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── SALARY ── */
+    .cell-salario {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent-green);
+    }
+
+    /* ── ACTIONS ── */
+    .acoes-wrap {
+      display: flex;
+      gap: 4px;
+    }
+
+    .btn-acao {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.15s;
+    }
+
+    .btn-ver {
+      color: var(--text-muted);
+    }
+
+    .btn-ver:hover {
+      background: var(--bg-input);
+      color: var(--text-primary);
+      border-color: var(--border-color);
+    }
+
+    .btn-editar {
+      color: var(--accent-blue);
+    }
+
+    .btn-editar:hover {
+      background: var(--accent-blue-soft);
+      border-color: rgba(79, 143, 247, 0.25);
+    }
+
+    .btn-excluir {
+      color: var(--accent-red);
+    }
+
+    .btn-excluir:hover {
+      background: var(--accent-red-soft);
+      border-color: rgba(248, 113, 113, 0.25);
+    }
+
+    /* ── CUSTOM SEARCH ── */
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .search-box input {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 13px;
+      padding: 8px 14px 8px 36px;
+      width: 260px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* ── TOOLBAR BUTTONS ── */
+    .tool-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--border-accent);
+      color: var(--text-primary);
+    }
+
+    .tool-btn.green:hover {
+      color: var(--accent-green);
+      border-color: rgba(52, 211, 153, 0.3);
+      background: var(--accent-green-soft);
+    }
+
+    .tool-btn.red:hover {
+      color: var(--accent-red);
+      border-color: rgba(248, 113, 113, 0.3);
+      background: var(--accent-red-soft);
+    }
+
+    .tool-btn.blue:hover {
+      color: var(--accent-blue);
+      border-color: rgba(79, 143, 247, 0.3);
+      background: var(--accent-blue-soft);
+    }
+
+    /* ── FOOTER INFO ── */
+    .table-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .page-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .table-container {
+        margin: 0 12px 12px;
+      }
+
+      .stats-bar {
+        padding: 16px 12px;
+      }
+
+      .page-header {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="page-header">
+    <div class="title-area">
+      <div class="icon-box"><i class="bi bi-people-fill"></i></div>
+      <div>
+        <h1>Colaboradores</h1>
+        <div class="subtitle">Gestão de equipe e recursos humanos</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="btnrecarregar" class="btn-header">
+        <i class="bi bi-arrow-clockwise"></i> Recarregar
+      </button>
+      <button class="btn-header primary" onclick="{{CallBack=Novo()}}">
+        <i class="bi bi-plus-lg"></i> Novo Colaborador
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">Total</div>
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-change up"><i class="bi bi-arrow-up-short"></i> registros</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Ativos</div>
+      <div class="stat-value" id="statAtivos" style="color: var(--accent-green)">0</div>
+      <div class="stat-change up"><i class="bi bi-check-circle"></i> colaboradores</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Em Férias</div>
+      <div class="stat-value" id="statFerias" style="color: var(--accent-amber)">0</div>
+      <div class="stat-change"><i class="bi bi-sun" style="color:var(--accent-amber)"></i><span
+          style="color:var(--text-muted)"> neste mês</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Folha Mensal</div>
+      <div class="stat-value" id="statFolha" style="color: var(--accent-blue)">R$ 0</div>
+      <div class="stat-change"><i class="bi bi-cash-stack" style="color:var(--accent-blue)"></i><span
+          style="color:var(--text-muted)"> estimado</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ TABLE ═══ -->
+  <div class="table-container">
+
+    <div class="table-toolbar">
+      <div class="tool-left">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="searchInput" placeholder="Buscar colaborador...">
+        </div>
+      </div>
+      <div class="tool-right">
+        <button class="tool-btn blue" title="Colunas" id="btnColVis"><i class="bi bi-columns-gap"></i></button>
+        <button class="tool-btn" title="Imprimir" id="btnPrint"><i class="bi bi-printer"></i></button>
+        <button class="tool-btn green" title="Excel" id="btnExcel"><i class="bi bi-file-earmark-excel"></i></button>
+        <button class="tool-btn red" title="PDF" id="btnPdf"><i class="bi bi-file-earmark-pdf"></i></button>
+      </div>
+    </div>
+
+    <table id="listagem" class="table" style="width:100%"></table>
+  </div>
+
+  <script>
+
+    // ═══════════════════════════════════════════════════════
+    // CORES DOS AVATARES
+    // ═══════════════════════════════════════════════════════
+    const coresAvatar = [
+      '#4f8ff7', '#34d399', '#f87171', '#fbbf24',
+      '#a78bfa', '#f472b6', '#22d3ee', '#fb923c'
+    ];
+
+    function corPorNome(nome) {
+      let hash = 0;
+      for (let i = 0; i < nome.length; i++) hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+      return coresAvatar[Math.abs(hash) % coresAvatar.length];
+    }
+
+    function iniciais(nome) {
+      const partes = nome.trim().split(/\s+/);
+      return (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : '')).toUpperCase();
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // RENDERS PERSONALIZADOS
+    // ═══════════════════════════════════════════════════════
+    function renderPessoa(data, type, row) {
+      if (type !== 'display') return row.nome;
+      const cor = corPorNome(row.nome);
+      return `
+        <div class="cell-pessoa">
+          <div class="avatar" style="background:${cor}">${iniciais(row.nome)}</div>
+          <div class="info">
+            <div class="nome">${row.nome}</div>
+            <div class="email">${row.email}</div>
+          </div>
+        </div>`;
+    }
+
+    function renderStatus(data) {
+      const map = {
+        'Ativo': 'badge-ativo',
+        'Inativo': 'badge-inativo',
+        'Férias': 'badge-ferias',
+        'Afastado': 'badge-afastado'
+      };
+      const cls = map[data] || 'badge-ativo';
+      return `<span class="badge-status ${cls}"><span class="dot"></span>${data}</span>`;
+    }
+
+    function renderDepto(data) {
+      return `<span class="tag-depto">${data}</span>`;
+    }
+
+    function renderSalario(data) {
+      const val = parseFloat(data).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      return `<span class="cell-salario">${val}</span>`;
+    }
+
+    function renderAcoes(data, type, row, meta) {
+      return `
+        <div class="acoes-wrap">
+          <button class="btn-acao btn-ver" title="Visualizar"
+            onclick="{{CallBack=GridView(RecNo=${meta.row + 1})}}">
+            <i class="bi bi-eye"></i>
+          </button>
+          <button class="btn-acao btn-editar" title="Editar"
+            onclick="{{CallBack=GridEdit(RecNo=${meta.row + 1})}}">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button class="btn-acao btn-excluir" title="Excluir"
+            onclick="{{CallBack=GridDelete(RecNo=${meta.row + 1})}}">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>`;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // INICIALIZAR DATATABLE
+    // ═══════════════════════════════════════════════════════
+    let tabela = null;
+
+    function inicializarTabela() {
+
+      tabela = new DataTable('#listagem', {
+
+        dom:
+          "<'row'<'col-12'tr>>" +
+          "<'table-footer'<'col-md-5'i><'col-md-7'p>>",
+
+        data: [],
+        pageLength: 10,
+        order: [[1, 'asc']],
+
+        columns: [
+          {
+            data: null,
+            title: 'Ações',
+            width: '100px',
+            orderable: false,
+            searchable: false,
+            className: 'dt-center',
+            render: renderAcoes
+          },
+          {
+            data: 'nome',
+            title: 'Colaborador',
+            render: renderPessoa
+          },
+          { data: 'cargo', title: 'Cargo' },
+          {
+            data: 'departamento',
+            title: 'Departamento',
+            render: renderDepto
+          },
+          {
+            data: 'status',
+            title: 'Status',
+            render: renderStatus
+          },
+          {
+            data: 'salario',
+            title: 'Salário',
+            className: 'dt-end',
+            render: renderSalario
+          },
+          { data: 'telefone', title: 'Telefone' },
+          {
+            data: 'admissao',
+            title: 'Admissão',
+            render: function (data) {
+              return `<span style="color:var(--text-secondary)">${data}</span>`;
+            }
+          },
+          { data: 'cidade', title: 'Cidade' }
+        ],
+
+        buttons: [
+          { extend: 'colvis', text: 'Colunas' },
+          { extend: 'print', text: 'Imprimir' },
+          { extend: 'excelHtml5', text: 'Excel' },
+          { extend: 'pdfHtml5', text: 'PDF', orientation: 'landscape' }
+        ],
+
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+        }
+
+      });
+
+      // Conectar botões da toolbar ao DataTables
+      $('#btnColVis').on('click', function () { tabela.button(0).trigger(); });
+      $('#btnPrint').on('click', function () { tabela.button(1).trigger(); });
+      $('#btnExcel').on('click', function () { tabela.button(2).trigger(); });
+      $('#btnPdf').on('click', function () { tabela.button(3).trigger(); });
+
+      // Busca customizada
+      $('#searchInput').on('keyup', function () {
+        tabela.search(this.value).draw();
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // ATUALIZAR CARDS DE ESTATÍSTICAS
+    // ═══════════════════════════════════════════════════════
+    function atualizarStats(dados) {
+      const total = dados.length;
+      const ativos = dados.filter(d => d.status === 'Ativo').length;
+      const ferias = dados.filter(d => d.status === 'Férias').length;
+      const folha = dados.reduce((s, d) => s + (parseFloat(d.salario) || 0), 0);
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statAtivos').textContent = ativos;
+      document.getElementById('statFerias').textContent = ferias;
+      document.getElementById('statFolha').textContent = folha.toLocaleString('pt-BR', {
+        style: 'currency', currency: 'BRL', maximumFractionDigits: 0
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 🚀 FUNÇÃO PÚBLICA — CHAMAR DO DELPHI OU CONSOLE
+    // ═══════════════════════════════════════════════════════
+    function PopulaDados(json) {
+
+      if (!tabela) inicializarTabela();
+
+      // aceita string JSON ou array de objetos
+      if (typeof json === 'string') json = JSON.parse(json);
+
+      tabela.clear();
+      tabela.rows.add(json);
+      tabela.draw();
+
+      atualizarStats(json);
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 📦 DADOS FICTÍCIOS PARA DEMONSTRAÇÃO
+    // ═══════════════════════════════════════════════════════
+    const dadosFicticios = [
+      { nome: "Ana Carolina Mendes", email: "ana.mendes@empresa.com", cargo: "Gerente de Projetos", departamento: "TI", status: "Ativo", salario: 12500.00, telefone: "(11) 99123-4567", admissao: "10/03/2018", cidade: "São Paulo" },
+      { nome: "Bruno Ferreira Lima", email: "bruno.lima@empresa.com", cargo: "Desenvolvedor Sênior", departamento: "TI", status: "Ativo", salario: 11800.00, telefone: "(11) 98234-5678", admissao: "22/07/2019", cidade: "São Paulo" },
+      { nome: "Carla Rodrigues Silva", email: "carla.silva@empresa.com", cargo: "Analista Financeiro", departamento: "Financeiro", status: "Férias", salario: 8200.00, telefone: "(21) 97345-6789", admissao: "15/01/2020", cidade: "Rio de Janeiro" },
+      { nome: "Diego Alves Santos", email: "diego.santos@empresa.com", cargo: "Designer UX/UI", departamento: "Criação", status: "Ativo", salario: 9500.00, telefone: "(31) 96456-7890", admissao: "03/05/2021", cidade: "Belo Horizonte" },
+      { nome: "Eduarda Monteiro", email: "eduarda.mont@empresa.com", cargo: "Coord. de RH", departamento: "RH", status: "Ativo", salario: 10200.00, telefone: "(41) 95567-8901", admissao: "08/11/2017", cidade: "Curitiba" },
+      { nome: "Felipe Costa Gomes", email: "felipe.gomes@empresa.com", cargo: "Vendedor Externo", departamento: "Comercial", status: "Ativo", salario: 6800.00, telefone: "(51) 94678-9012", admissao: "20/09/2022", cidade: "Porto Alegre" },
+      { nome: "Gabriela Nunes Pinto", email: "gabi.nunes@empresa.com", cargo: "Estagiária de Marketing", departamento: "Marketing", status: "Ativo", salario: 2200.00, telefone: "(61) 93789-0123", admissao: "01/02/2024", cidade: "Brasília" },
+      { nome: "Henrique Duarte", email: "henrique.d@empresa.com", cargo: "Analista de Sistemas", departamento: "TI", status: "Afastado", salario: 9000.00, telefone: "(71) 92890-1234", admissao: "14/06/2019", cidade: "Salvador" },
+      { nome: "Isabela Martins", email: "isa.martins@empresa.com", cargo: "Contadora", departamento: "Financeiro", status: "Ativo", salario: 8700.00, telefone: "(81) 91901-2345", admissao: "30/04/2016", cidade: "Recife" },
+      { nome: "João Pedro Ribeiro", email: "jp.ribeiro@empresa.com", cargo: "Técnico de Suporte", departamento: "TI", status: "Ativo", salario: 5400.00, telefone: "(85) 90012-3456", admissao: "12/08/2023", cidade: "Fortaleza" },
+      { nome: "Karina Lopes Vieira", email: "karina.lv@empresa.com", cargo: "Advogada Trabalhista", departamento: "Jurídico", status: "Ativo", salario: 13000.00, telefone: "(48) 99123-4567", admissao: "05/03/2015", cidade: "Florianópolis" },
+      { nome: "Lucas Tavares Ramos", email: "lucas.ramos@empresa.com", cargo: "Analista de Dados", departamento: "TI", status: "Férias", salario: 10500.00, telefone: "(19) 98234-5678", admissao: "17/10/2020", cidade: "Campinas" },
+      { nome: "Marina Oliveira", email: "marina.oli@empresa.com", cargo: "Assistente Administrativa", departamento: "Administrativo", status: "Ativo", salario: 3800.00, telefone: "(27) 97345-6789", admissao: "25/01/2022", cidade: "Vitória" },
+      { nome: "Nicolas Barbosa", email: "nicolas.b@empresa.com", cargo: "Engenheiro de Software", departamento: "TI", status: "Ativo", salario: 14200.00, telefone: "(62) 96456-7890", admissao: "09/07/2018", cidade: "Goiânia" },
+      { nome: "Patrícia Souza Dias", email: "patricia.sd@empresa.com", cargo: "Diretora Comercial", departamento: "Comercial", status: "Ativo", salario: 18500.00, telefone: "(11) 95567-8901", admissao: "01/02/2013", cidade: "São Paulo" },
+      { nome: "Rafael Cunha Borges", email: "rafael.cb@empresa.com", cargo: "Auxiliar de Logística", departamento: "Logística", status: "Inativo", salario: 3200.00, telefone: "(67) 94678-9012", admissao: "18/11/2021", cidade: "Campo Grande" },
+      { nome: "Sofia Almeida Teixeira", email: "sofia.at@empresa.com", cargo: "Social Media", departamento: "Marketing", status: "Ativo", salario: 5800.00, telefone: "(91) 93789-0123", admissao: "06/04/2023", cidade: "Belém" },
+      { nome: "Thiago Pereira Rocha", email: "thiago.pr@empresa.com", cargo: "Gerente de Vendas", departamento: "Comercial", status: "Ativo", salario: 11000.00, telefone: "(84) 92890-1234", admissao: "22/09/2017", cidade: "Natal" },
+      { nome: "Valentina Castro", email: "val.castro@empresa.com", cargo: "Psicóloga Organizacional", departamento: "RH", status: "Ativo", salario: 9300.00, telefone: "(65) 91901-2345", admissao: "13/06/2021", cidade: "Cuiabá" },
+      { nome: "William Azevedo Pires", email: "will.ap@empresa.com", cargo: "DBA", departamento: "TI", status: "Ativo", salario: 12000.00, telefone: "(98) 90012-3456", admissao: "28/02/2019", cidade: "São Luís" }
+    ];
+
+    // ═══════════════════════════════════════════════════════
+    // INICIALIZAÇÃO
+    // ═══════════════════════════════════════════════════════
+    $(document).ready(function () {
+      inicializarTabela();
+      //PopulaDados(dadosFicticios);
+    });
+
+  </script>
+
+</body>
+
+</html>

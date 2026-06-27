@@ -1,0 +1,154 @@
+23:02:41.325 [140222863316672] REQ GET / CT=
+23:02:41.329 [140222863316672] PARSED Path=/ Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.586 [140222863316672] REQ GET /js/jquery-3.6.4.js CT=
+23:02:41.590 [140222850365120] REQ GET /css/d2bridge.css CT=
+23:02:41.591 [140222850893504] REQ GET /css/sweetalert2.css CT=
+23:02:41.591 [140222849377984] REQ GET /js/prismserver.js CT=
+23:02:41.593 [140222863316672] PARSED Path=/js/jquery-3.6.4.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.593 [140222863316672] STATIC=/js/jquery-3.6.4.js webm=0 file=wwwroot/js/jquery-3.6.4.js exists=True
+23:02:41.593 [140222863316672] MIME=text/javascript
+23:02:41.594 [140222848243392] REQ GET /js/d2bridgeloader.js CT=
+23:02:41.596 [140222847387328] REQ GET /js/sweetalert2.js CT=
+23:02:41.600 [140222850893504] PARSED Path=/css/sweetalert2.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.600 [140222850893504] STATIC=/css/sweetalert2.css webm=0 file=wwwroot/css/sweetalert2.css exists=True
+23:02:41.600 [140222850893504] MIME=text/css
+23:02:41.600 [140222849377984] PARSED Path=/js/prismserver.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.601 [140222849377984] STATIC=/js/prismserver.js webm=0 file=wwwroot/js/prismserver.js exists=True
+23:02:41.601 [140222849377984] MIME=text/javascript
+23:02:41.603 [140222848243392] PARSED Path=/js/d2bridgeloader.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.603 [140222848243392] STATIC=/js/d2bridgeloader.js webm=0 file=wwwroot/js/d2bridgeloader.js exists=False
+23:02:41.603 [140222848243392] VIRTUAL-FILE served len=4663
+23:02:41.604 [140222847387328] PARSED Path=/js/sweetalert2.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.604 [140222850365120] PARSED Path=/css/d2bridge.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.604 [140222850365120] STATIC=/css/d2bridge.css webm=0 file=wwwroot/css/d2bridge.css exists=True
+23:02:41.604 [140222850365120] MIME=text/css
+23:02:41.605 [140222847387328] STATIC=/js/sweetalert2.js webm=0 file=wwwroot/js/sweetalert2.js exists=True
+23:02:41.605 [140222847387328] MIME=text/javascript
+23:02:41.606 [140222863316672] REQ GET /js/jquery.jqgrid.min.js CT=
+23:02:41.608 [140222850365120] REQ GET /css/ui.jqgrid-bootstrap5.css CT=
+23:02:41.612 [140222847387328] REQ GET /js/jquery.inputmask.js CT=
+23:02:41.622 [140222863316672] PARSED Path=/js/jquery.jqgrid.min.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.624 [140222850365120] PARSED Path=/css/ui.jqgrid-bootstrap5.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.623 [140222863316672] STATIC=/js/jquery.jqgrid.min.js webm=0 file=wwwroot/js/jquery.jqgrid.min.js exists=True
+23:02:41.626 [140222863316672] MIME=text/javascript
+23:02:41.626 [140222847387328] PARSED Path=/js/jquery.inputmask.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:02:41.626 [140222850365120] STATIC=/css/ui.jqgrid-bootstrap5.css webm=0 file=wwwroot/css/ui.jqgrid-bootstrap5.css exists=True
+23:02:41.628 [140222850365120] MIME=text/css
+23:02:41.628 [140222847387328] STATIC=/js/jquery.inputmask.js webm=0 file=wwwroot/js/jquery.inputmask.js exists=True
+23:02:41.629 [140222847387328] MIME=text/javascript
+23:02:41.840 [140222840813248] WS-Process UPGRADE DETECTED - URL=/appbasedefault/websocket/connectionparams?token=7O11kIOjson4q9d49NtLAQW1&prismsession=ik3v91b9Tt4b&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+23:02:41.841 [140222840813248] WS-CONNECT entering
+23:02:41.841 [140222840813248] WS-CONNECT UpgradeUri=appbasedefault/websocket/connectionparams?token=7O11kIOjson4q9d49NtLAQW1&prismsession=ik3v91b9Tt4b&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+23:02:41.841 [140222840813248] WS-CONNECT OK session=ik3v91b9Tt4b channel=PrismSocketConnection
+23:02:41.934 [140222857426624] WS-SEND OK to=ik3v91b9Tt4b len=1148
+23:02:46.156 [140222840284864] WS-SEND OK to=ik3v91b9Tt4b len=5185
+23:02:46.157 [140222840284864] WS-SEND OK to=ik3v91b9Tt4b len=40
+23:24:17.085 [140222840813248] WS-FRAME opcode=8 len=0
+23:24:17.086 [140222840813248] WS-DISCONNECT entering
+23:24:17.086 [140222840813248] WS-Process Upgrade OK
+23:24:17.131 [140222840813248] REQ HEAD /reconnect?token=7O11kIOjson4q9d49NtLAQW1&&prismsession=ik3v91b9Tt4b&&d2dockerinstance=0 CT=
+23:24:17.139 [140222840813248] PARSED Path=/reconnect Method=5 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:14.973 [140222840813248] REQ GET / CT=
+23:27:14.978 [140222840813248] PARSED Path=/ Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.304 [140222840813248] REQ GET /js/jquery-3.6.4.js CT=
+23:27:15.304 [140222847387328] REQ GET /js/prismserver.js CT=
+23:27:15.307 [140222863316672] REQ GET /css/sweetalert2.css CT=
+23:27:15.310 [140222848243392] REQ GET /css/d2bridge.css CT=
+23:27:15.312 [140222850365120] REQ GET /js/d2bridgeloader.js CT=
+23:27:15.315 [140222849377984] REQ GET /js/sweetalert2.js CT=
+23:27:15.318 [140222840813248] PARSED Path=/js/jquery-3.6.4.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.318 [140222840813248] STATIC=/js/jquery-3.6.4.js webm=0 file=wwwroot/js/jquery-3.6.4.js exists=True
+23:27:15.318 [140222840813248] MIME=text/javascript
+23:27:15.320 [140222863316672] PARSED Path=/css/sweetalert2.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.320 [140222863316672] STATIC=/css/sweetalert2.css webm=0 file=wwwroot/css/sweetalert2.css exists=True
+23:27:15.320 [140222863316672] MIME=text/css
+23:27:15.320 [140222847387328] PARSED Path=/js/prismserver.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.320 [140222847387328] STATIC=/js/prismserver.js webm=0 file=wwwroot/js/prismserver.js exists=True
+23:27:15.321 [140222847387328] MIME=text/javascript
+23:27:15.322 [140222840813248] REQ GET /js/jquery.jqgrid.min.js CT=
+23:27:15.325 [140222850365120] PARSED Path=/js/d2bridgeloader.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.328 [140222848243392] PARSED Path=/css/d2bridge.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.328 [140222848243392] STATIC=/css/d2bridge.css webm=0 file=wwwroot/css/d2bridge.css exists=True
+23:27:15.328 [140222848243392] MIME=text/css
+23:27:15.328 [140222850365120] STATIC=/js/d2bridgeloader.js webm=0 file=wwwroot/js/d2bridgeloader.js exists=False
+23:27:15.328 [140222850365120] VIRTUAL-FILE served len=4663
+23:27:15.328 [140222840813248] PARSED Path=/js/jquery.jqgrid.min.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.329 [140222840813248] STATIC=/js/jquery.jqgrid.min.js webm=0 file=wwwroot/js/jquery.jqgrid.min.js exists=True
+23:27:15.329 [140222849377984] PARSED Path=/js/sweetalert2.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.329 [140222840813248] MIME=text/javascript
+23:27:15.329 [140222849377984] STATIC=/js/sweetalert2.js webm=0 file=wwwroot/js/sweetalert2.js exists=True
+23:27:15.329 [140222849377984] MIME=text/javascript
+23:27:15.363 [140222847387328] REQ GET /css/ui.jqgrid-bootstrap5.css CT=
+23:27:15.370 [140222847387328] PARSED Path=/css/ui.jqgrid-bootstrap5.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.370 [140222847387328] STATIC=/css/ui.jqgrid-bootstrap5.css webm=0 file=wwwroot/css/ui.jqgrid-bootstrap5.css exists=True
+23:27:15.370 [140222847387328] MIME=text/css
+23:27:15.387 [140222863316672] REQ GET /js/jquery.inputmask.js CT=
+23:27:15.392 [140222863316672] PARSED Path=/js/jquery.inputmask.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+23:27:15.394 [140222863316672] STATIC=/js/jquery.inputmask.js webm=0 file=wwwroot/js/jquery.inputmask.js exists=True
+23:27:15.394 [140222863316672] MIME=text/javascript
+23:27:16.032 [140222850893504] WS-Process UPGRADE DETECTED - URL=/appbasedefault/websocket/connectionparams?token=16tMDJtpPJDzXOvPDWZI95MN&prismsession=3uIDylAJZeWE&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+23:27:16.032 [140222850893504] WS-CONNECT entering
+23:27:16.032 [140222850893504] WS-CONNECT UpgradeUri=appbasedefault/websocket/connectionparams?token=16tMDJtpPJDzXOvPDWZI95MN&prismsession=3uIDylAJZeWE&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+23:27:16.032 [140222850893504] WS-CONNECT OK session=3uIDylAJZeWE channel=PrismSocketConnection
+23:27:16.177 [140222836086464] WS-SEND OK to=3uIDylAJZeWE len=1148
+03:41:58.994 [140318214040512] === D2Bridge mORMot2 server starting ===
+03:41:58.995 [140318214040512] RootDirectory=wwwroot/ AppBase=/
+03:42:10.228 [140318107662016] REQ HEAD /reconnect?token=16tMDJtpPJDzXOvPDWZI95MN&&prismsession=3uIDylAJZeWE&&d2dockerinstance=0 CT=
+03:42:10.243 [140318107662016] PARSED Path=/reconnect Method=5 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:44.889 [140318107662016] REQ GET / CT=
+03:42:44.909 [140318107662016] PARSED Path=/ Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.432 [140318107662016] REQ GET /js/jquery-3.6.4.js CT=
+03:42:45.457 [140318094984896] REQ GET /css/sweetalert2.css CT=
+03:42:45.457 [140318094456512] REQ GET /css/d2bridge.css CT=
+03:42:45.458 [140318107662016] PARSED Path=/js/jquery-3.6.4.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.458 [140318107662016] STATIC=/js/jquery-3.6.4.js webm=0 file=wwwroot/js/jquery-3.6.4.js exists=True
+03:42:45.458 [140318107662016] MIME=text/javascript
+03:42:45.461 [140318093559488] REQ GET /js/prismserver.js CT=
+03:42:45.464 [140318091744960] REQ GET /js/sweetalert2.js CT=
+03:42:45.467 [140318094456512] PARSED Path=/css/d2bridge.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.469 [140318107662016] REQ GET /js/jquery.jqgrid.min.js CT=
+03:42:45.469 [140318088390336] REQ GET /js/d2bridgeloader.js CT=
+03:42:45.469 [140318094984896] PARSED Path=/css/sweetalert2.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.470 [140318093559488] PARSED Path=/js/prismserver.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.471 [140318094456512] STATIC=/css/d2bridge.css webm=0 file=wwwroot/css/d2bridge.css exists=True
+03:42:45.470 [140318091744960] PARSED Path=/js/sweetalert2.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.473 [140318093559488] STATIC=/js/prismserver.js webm=0 file=wwwroot/js/prismserver.js exists=True
+03:42:45.474 [140318093559488] MIME=text/javascript
+03:42:45.474 [140318094456512] MIME=text/css
+03:42:45.475 [140318094984896] STATIC=/css/sweetalert2.css webm=0 file=wwwroot/css/sweetalert2.css exists=True
+03:42:45.475 [140318094984896] MIME=text/css
+03:42:45.474 [140318091744960] STATIC=/js/sweetalert2.js webm=0 file=wwwroot/js/sweetalert2.js exists=True
+03:42:45.475 [140318091744960] MIME=text/javascript
+03:42:45.477 [140318094984896] REQ GET /js/jquery.inputmask.js CT=
+03:42:45.478 [140318091744960] REQ GET /css/ui.jqgrid-bootstrap5.css CT=
+03:42:45.480 [140318107662016] PARSED Path=/js/jquery.jqgrid.min.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.483 [140318107662016] STATIC=/js/jquery.jqgrid.min.js webm=0 file=wwwroot/js/jquery.jqgrid.min.js exists=True
+03:42:45.483 [140318107662016] MIME=text/javascript
+03:42:45.486 [140318091744960] PARSED Path=/css/ui.jqgrid-bootstrap5.css Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.486 [140318091744960] STATIC=/css/ui.jqgrid-bootstrap5.css webm=0 file=wwwroot/css/ui.jqgrid-bootstrap5.css exists=True
+03:42:45.487 [140318091744960] MIME=text/css
+03:42:45.488 [140318088390336] PARSED Path=/js/d2bridgeloader.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.489 [140318088390336] STATIC=/js/d2bridgeloader.js webm=0 file=wwwroot/js/d2bridgeloader.js exists=False
+03:42:45.489 [140318088390336] VIRTUAL-FILE served len=4663
+03:42:45.490 [140318094984896] PARSED Path=/js/jquery.inputmask.js Method=0 IP= Upgrade= Cookie=d2bridgecameralist=%5B%7B%22id%22%3A%22ICSOvwnDW4iRi3f7KTfVSh3UEr5g19O4StCEOzPXc ReloadPage=False Token= SessUUID=
+03:42:45.490 [140318094984896] STATIC=/js/jquery.inputmask.js webm=0 file=wwwroot/js/jquery.inputmask.js exists=True
+03:42:45.490 [140318094984896] MIME=text/javascript
+03:42:45.861 [140318084970176] WS-Process UPGRADE DETECTED - URL=/appbasedefault/websocket/connectionparams?token=z4sJR9qUJeJWcrxsm5JsYAPV&prismsession=TXRVp5V7PV2N&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+03:42:45.861 [140318084970176] WS-CONNECT entering
+03:42:45.861 [140318084970176] WS-CONNECT UpgradeUri=appbasedefault/websocket/connectionparams?token=z4sJR9qUJeJWcrxsm5JsYAPV&prismsession=TXRVp5V7PV2N&channelname=PrismCallBack&d2dockerinstance=0&viewportinfo=%7B%22width%22%3A1920%2C%22height%22%3A951%2C%22orientation%22%3A%22landscape%22%7D
+03:42:45.861 [140318084970176] WS-CONNECT OK session=TXRVp5V7PV2N channel=PrismSocketConnection
+03:42:46.002 [140318101223104] WS-SEND OK to=TXRVp5V7PV2N len=1148
+03:42:47.637 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=5185
+03:42:47.637 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=40
+03:42:48.547 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=5185
+03:42:48.547 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=40
+03:42:49.509 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=5185
+03:42:49.510 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=40
+03:42:49.701 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=5185
+03:42:49.702 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=40
+03:42:49.945 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=5185
+03:42:49.945 [140318084441792] WS-SEND OK to=TXRVp5V7PV2N len=40
+03:42:51.112 [140318084970176] WS-FRAME opcode=8 len=0
+03:42:51.112 [140318084970176] WS-DISCONNECT entering
+03:42:51.113 [140318084970176] WS-Process Upgrade OK
+03:48:44.910 [140318116665024] WS-SEND FAILED - session TXRVp5V7PV2N not in FWSConnections
