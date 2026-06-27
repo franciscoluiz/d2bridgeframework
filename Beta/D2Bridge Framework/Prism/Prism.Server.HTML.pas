@@ -73,7 +73,7 @@ type
    procedure DownloadData(APrismRequest: TPrismHTTPRequest; var APrismReponse: TPrismHTTPResponse; var APrismWSContext: TPrismWebSocketContext);
    function ReceiveMessage(AMessage: TPrismWebSocketMessage; PrismWSContext: TPrismWebSocketContext): string;
    procedure FinishedGetHTML(APrismWSContext: TPrismWebSocketContext);
-   procedure ParseFile(AFileName: string; AContext: TIdContext; APrismRequest: TPrismHTTPRequest; var APrismReponse: TPrismHTTPResponse; var APrismWSContext: TPrismWebSocketContext);
+    procedure ParseFile(AFileName: string; AContext: {$IFDEF USE_MORMOT2}TMormotHttpRequest{$ELSE}TIdContext{$ENDIF}; APrismRequest: TPrismHTTPRequest; var APrismReponse: TPrismHTTPResponse; var APrismWSContext: TPrismWebSocketContext);
   end;
 
 
@@ -630,7 +630,7 @@ begin
 end;
 
 procedure TPrismServerHTML.ParseFile(AFileName: string;
-  AContext: TIdContext; APrismRequest: TPrismHTTPRequest;
+  AContext: {$IFDEF USE_MORMOT2}TMormotHttpRequest{$ELSE}TIdContext{$ENDIF}; APrismRequest: TPrismHTTPRequest;
   var APrismReponse: TPrismHTTPResponse;
   var APrismWSContext: TPrismWebSocketContext);
 var

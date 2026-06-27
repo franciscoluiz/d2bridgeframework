@@ -201,6 +201,9 @@ Email: talisjonatas@me.com"/>
     </Files>
     <RequiredPkgs>
       <Item>
+        <PackageName Value="mormot2"/>
+      </Item>
+      <Item>
         <PackageName Value="indylaz"/>
         <MinVersion Major="10" Valid="True"/>
       </Item>

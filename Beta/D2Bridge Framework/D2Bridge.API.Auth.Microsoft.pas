@@ -88,7 +88,7 @@ implementation
 
 uses
   D2Bridge.API.Auth.Microsoft.Config, D2Bridge.API.Auth.Microsoft.Response,
-  D2Bridge.Instance, IdURI;
+  D2Bridge.Instance{$IFNDEF USE_MORMOT2}, IdURI{$ENDIF};
 
 { TD2BridgeAPIAuthMicrosoft }
 

@@ -1311,4 +1311,12 @@ begin
 end;
 {$IFEND}
 
+// Non-Windows stub for interface-mandated function
+{$IFNDEF MSWINDOWS}
+{function TPrismResourceMonitor.BuildCurrentAppSnapshot: string;
+begin
+  Result := '';
+end;}
+{$ENDIF}
+
 end.
