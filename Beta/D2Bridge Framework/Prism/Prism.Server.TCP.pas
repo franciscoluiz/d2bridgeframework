@@ -2788,13 +2788,26 @@ procedure TD2BridgeWebSocketServer.Process(ClientSock: THttpServerSocket;
   ConnectionID: THttpServerConnectionID; ConnectionThread: TSynThread);
 var
   err: integer;
+  vUpgradeStr: RawUTF8;
+  vIsWS: boolean;
 begin
-  if (hfConnectionUpgrade in ClientSock.Http.HeaderFlags) and
-     (ClientSock.Method <> '') and
-     IsGet(ClientSock.Method) and
-     PropNameEquals(ClientSock.Http.Upgrade, 'websocket') then
+  // Determine if this is a WebSocket upgrade request.
+  // Check both HeaderFlags AND the Upgrade header directly for robustness.
+  vUpgradeStr := ClientSock.Http.Upgrade;
+  vIsWS := (hfConnectionUpgrade in ClientSock.Http.HeaderFlags)
+           and IsGet(ClientSock.Method)
+           and ((vUpgradeStr <> '') and PropNameEquals(vUpgradeStr, 'websocket'));
+  // Also check the raw headers in case Upgrade was parsed differently
+  if not vIsWS then
   begin
-    PrismServer.D2Log('WS-Process UPGRADE DETECTED - URL='+string(ClientSock.URL));
+    vIsWS := (vUpgradeStr <> '') and PropNameEquals(vUpgradeStr, 'websocket')
+             and IsGet(ClientSock.Method);
+  end;
+
+  if vIsWS then
+  begin
+    PrismServer.D2Log('WS-Process UPGRADE DETECTED - URL='+string(ClientSock.URL)+
+      ' Flags='+IntToStr(byte(ClientSock.Http.HeaderFlags)));
     err := WebSocketProcessUpgrade(ClientSock);
     if err <> HTTP_SUCCESS then
       PrismServer.D2Log('WS-Process Upgrade FAILED err='+IntToStr(err))
@@ -2851,7 +2864,7 @@ begin
     FLogLines.Add(s);
     // Flush to file immediately
     AssignFile(f, 'd2bridge_debug.log');
-    if FileExists('d2bridge_debug.log') then Append(f) else Rewrite(f);
+    if FileExists('d2bridge_debug.log') then System.Append(f) else Rewrite(f);
     for s in FLogLines do WriteLn(f, s);
     CloseFile(f);
     FLogLines.Clear;
@@ -2877,19 +2890,28 @@ begin
   if ASSL then Include(Opts, hsoEnableTls);
 
   FWebSocketServer := TD2BridgeWebSocketServer.Create(PortStr, nil, nil, 'D2Bridge', 32, 30000, Opts);
+
+  // Set callbacks BEFORE starting to avoid race conditions
+  FWebSocketServer.OnRequest := OnHttpRequest;
+  FWebSocketServer.OnWebSocketConnect := OnWSConnect;
+  FWebSocketServer.OnWebSocketDisconnect := OnWSDisconnect;
+
+  // Register WebSocket protocol
+  // The URIs must match what the browser sends (without leading / and
+  // without query string). mORMot2 CloneByUri does exact match so we
+  // register one protocol per WebSocket endpoint.
+  FWSProtocols := FWebSocketServer.WebSocketProtocols;
+  WSChat := TWebSocketProtocolChat.Create('d2bridge', 'appbasedefault/websocket/connectionparams');
+  WSChat.OnIncomingFrame := OnWSIncomingFrame;
+  FWSProtocols.Add(WSChat);
+  WSChat := TWebSocketProtocolChat.Create('d2bridge', 'appbasedefault/websocket/connectionresponseparams');
+  WSChat.OnIncomingFrame := OnWSIncomingFrame;
+  FWSProtocols.Add(WSChat);
+
   if ASSL then
     FWebSocketServer.WaitStartedHttps(30)
   else
     FWebSocketServer.WaitStarted(30);
-
-  FWSProtocols := FWebSocketServer.WebSocketProtocols;
-  WSChat := TWebSocketProtocolChat.Create('d2bridge', '');
-  WSChat.OnIncomingFrame := OnWSIncomingFrame;
-  FWSProtocols.Add(WSChat);
-
-  FWebSocketServer.OnRequest := OnHttpRequest;
-  FWebSocketServer.OnWebSocketConnect := OnWSConnect;
-  FWebSocketServer.OnWebSocketDisconnect := OnWSDisconnect;
 
   FHttpServer := FWebSocketServer;
   FActive := true;
@@ -2956,6 +2978,23 @@ begin
         ' Token=' + Copy(vPrismRequest.D2BridgeToken, 1, 16) +
         ' SessUUID=' + Copy(vPrismRequest.SessionUUID, 1, 12));
   try
+    // WebSocket upgrade requests: let TWebSocketServer infrastructure handle them.
+    // Do NOT process as regular HTTP — return early so no HTTP response is sent.
+    if (vPrismRequest.Upgrade = 'websocket') and
+       (vPrismRequest.SecWebSocketKey <> '') then
+    begin
+      D2Log('WS-UPGRADE path=' + vPrismRequest.Path + ' key='+Copy(vPrismRequest.SecWebSocketKey,1,12)+'...');
+      // Force the WebSocket upgrade by using the server's infrastructure
+      // Set response to empty — the WebSocket server will override this
+      Ctxt.OutContentType := '';
+      Ctxt.OutContent := '';
+      // Return early to prevent OnHttpRequest from sending an HTTP response
+      // that would kill the WebSocket upgrade
+      vPrismRequest.Free;
+      Result := HTTP_SUCCESS;
+      Exit;
+    end;
+
     if (not Assigned(vPrismRequest.Route)) and
        (not Assigned(PrismBaseClass.ServerController.PrimaryFormClass)) then
     begin Result := HTTP_NOTFOUND; Exit; end;
@@ -3209,7 +3248,15 @@ begin
         (vPrismRequest.Route as TD2BridgeRestRoute).DoCallBack(vPrismRequest, vPrismResponse);
         PrismBaseClass.Sessions.RemoveThreadID(TThread.CurrentThread.ThreadID);
         Ctxt.OutContentType := StringToUtf8(vPrismResponse.ContentType);
-        Ctxt.OutContent := StringToUtf8(vPrismResponse.Content);
+        if vPrismResponse.Content <> '' then
+          Ctxt.OutContent := StringToUtf8(vPrismResponse.Content)
+        else if vPrismResponse.InitializedJSON then
+        begin
+          if vPrismResponse.IsJSONArray then
+            Ctxt.OutContent := StringToUtf8(vPrismResponse.JSON.GetValue('jsonarray').ToJSON)
+          else
+            Ctxt.OutContent := StringToUtf8(vPrismResponse.JSON.ToJSON);
+        end;
         Result := HTTP_SUCCESS;
       finally vPrismResponse.Free; end;
       Exit;
