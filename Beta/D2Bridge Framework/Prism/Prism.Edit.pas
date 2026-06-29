@@ -349,12 +349,15 @@ begin
  FStoredDataType:= NewDataType;
 
  NewTextMask:= TextMask;
- if (AForceUpdate) or (FStoredTextMask <> NewTextMask) then
+ if FStoredTextMask <> NewTextMask then
  begin
   FStoredTextMask:= NewTextMask;
-  ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask("remove");');
-  if FStoredTextMask <> '' then
-  ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask({' + FStoredTextMask + '});');
+  if not AForceUpdate then
+  begin
+   ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask("remove");');
+   if FStoredTextMask <> '' then
+   ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask({' + FStoredTextMask + '});');
+  end;
  end;
 end;
 

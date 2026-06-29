@@ -223,12 +223,13 @@ begin
  inherited;
 
  NewItems:= Items;
- if (FStoredItems.CommaText <> NewItems.CommaText) or (AForceUpdate) then
+ if FStoredItems.CommaText <> NewItems.CommaText then
  begin
   FStoredItems.CommaText := NewItems.CommaText;
   //ProcessHTML;
 
-  ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = '+ FormatValueHTML(RenderComboboxItems) +';');
+  if not AForceUpdate then
+   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = '+ FormatValueHTML(RenderComboboxItems) +';');
 
   //ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").outerHTML = '+ FormatValueHTML(HTMLControl) +';');
  end;

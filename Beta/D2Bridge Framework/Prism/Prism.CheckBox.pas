@@ -207,10 +207,11 @@ begin
  inherited;
 
  NewText:= Text;
- if (FStoredText <> Text) or (AForceUpdate) then
+ if FStoredText <> NewText then
  begin
   FStoredText := NewText;
-  ScriptJS.Add('document.querySelector("label[for='+AnsiUpperCase(NamePrefix)+']").textContent  = "'+ Text +'";');
+  if not AForceUpdate then
+   ScriptJS.Add('document.querySelector("label[for='+AnsiUpperCase(NamePrefix)+']").textContent  = "'+ Text +'";');
  end;
 
  NewChecked:= Checked;

@@ -294,11 +294,9 @@ begin
  inherited;
 
  NewDataType:= DataWare.DataType;
- if (AForceUpdate) or (FStoredDataType <> NewDataType) then
- begin
-  FStoredDataType:= DataWare.DataType;
+ if FStoredDataType <> NewDataType then
   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").'+InputHTMLTypeByPrismFieldType(DataType)+';');
- end;
+ FStoredDataType:= DataWare.DataType;
 
  NewFieldValue:= DataWare.FieldText(AForceUpdate);
  if (AForceUpdate) or (VarToStr(FStoredFieldValue) <> VarToStr(NewFieldValue)) then
@@ -334,13 +332,15 @@ begin
   end;
 
  NewTextMask:= TextMask;
- if (AForceUpdate) or (FStoredFieldValueMask <> NewTextMask) then
+ if FStoredFieldValueMask <> NewTextMask then
  begin
   FStoredFieldValueMask:= NewTextMask;
-
-  ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask("remove");');
-  if FStoredFieldValueMask <> '' then
-  ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask({' + FStoredFieldValueMask + '});');
+  if not AForceUpdate then
+  begin
+   ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask("remove");');
+   if FStoredFieldValueMask <> '' then
+   ScriptJS.Add('$("[id]").filter(function() {return this.id.toUpperCase() === "'+AnsiUpperCase(NamePrefix)+'";}).inputmask({' + FStoredFieldValueMask + '});');
+  end;
  end;
 
 end;

@@ -377,10 +377,11 @@ begin
  NewHref:= href;
  NewHint:= Hint;
 
- if (AForceUpdate) or (NewText <> FStoredText) then
+ if NewText <> FStoredText then
  begin
   FStoredText:= NewText;
-  ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+'text i]").textContent = "'+ FStoredText +'";');
+  if not AForceUpdate then
+   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+'text i]").textContent = "'+ FStoredText +'";');
  end;
 
  if (NewOnClickCallBack <> FOnClickCallBack) then

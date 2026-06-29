@@ -223,11 +223,12 @@ var
  NewItems: TStrings;
 begin
  NewItems:= Items;
- if (FStoredItems.CommaText <> NewItems.CommaText) or (AForceUpdate) then
+ if FStoredItems.CommaText <> NewItems.CommaText then
  begin
   FStoredItems.CommaText:= NewItems.CommaText;
 
-  ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = '+ FormatValueHTML(RenderDBComboboxItems) +';');
+  if not AForceUpdate then
+   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = '+ FormatValueHTML(RenderDBComboboxItems) +';');
 
   //ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").outerHTML = '+ FormatValueHTML(HTMLControl) +';');
  end;

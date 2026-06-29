@@ -207,13 +207,16 @@ begin
  inherited;
 
  NewText:= Text;
- if (AForceUpdate) or (FStoredText <> NewText) then
+ if FStoredText <> NewText then
  begin
   FStoredText := NewText;
-  if FIsHTMLContent then
-   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `'+  FStoredText +'`;')
-  else
-   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").textContent = '+  FormatValueHTML(FStoredText) +';');
+  if not AForceUpdate then
+  begin
+   if FIsHTMLContent then
+    ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `'+  FStoredText +'`;')
+   else
+    ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").textContent = '+  FormatValueHTML(FStoredText) +';');
+  end;
  end;
 
 end;

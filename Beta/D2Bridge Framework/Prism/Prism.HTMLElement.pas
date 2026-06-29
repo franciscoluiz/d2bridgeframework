@@ -182,11 +182,11 @@ begin
  inherited;
 
  NewHTML:= HTML;
- if (AForceUpdate) or (FStoredHTML <> NewHTML) then
+ if FStoredHTML <> NewHTML then
  begin
   FStoredHTML := NewHTML;
-
-  ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `' + Form.ProcessAllTagHTML(FStoredHTML) + '`;');
+  if not AForceUpdate then
+   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `' + Form.ProcessAllTagHTML(FStoredHTML) + '`;');
  end;
 
 end;

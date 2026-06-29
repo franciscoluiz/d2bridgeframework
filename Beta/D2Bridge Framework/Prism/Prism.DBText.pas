@@ -181,15 +181,18 @@ begin
  inherited;
 
  NewText:= FDataLinkField.FieldText(AForceUpdate);
- if (FStoredText <> NewText) or (AForceUpdate) then
+ if FStoredText <> NewText then
  begin
   FStoredText:= NewText;
-  if FIsHTMLContent then
+  if not AForceUpdate then
   begin
-   //ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").value = "'+ FDataLinkField.ValueHTMLElement +'";');
-   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `'+ FDataLinkField.ValueHTMLElement +'`;');
-  end else
-   ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").textContent = '+ FormatValueHTML(FDataLinkField.ValueHTMLElement) +';');
+   if FIsHTMLContent then
+   begin
+    //ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").value = "'+ FDataLinkField.ValueHTMLElement +'";');
+    ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").innerHTML = `'+ FDataLinkField.ValueHTMLElement +'`;')
+   end else
+    ScriptJS.Add('document.querySelector("[id='+AnsiUpperCase(NamePrefix)+' i]").textContent = '+ FormatValueHTML(FDataLinkField.ValueHTMLElement) +';');
+  end;
  end;
 
 end;
