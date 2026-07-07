@@ -150,8 +150,6 @@ type
     procedure OnSessionChange(EnumChangeType: TValue; varSession: TValue);
     // Auth route handler (in thread)
     procedure Exec_RouteAuth(varPrismHTTPRequest: TValue);
-    // Open form handler (in thread)
-    procedure Exec_OpenForm(varPrismHTTPRequest, varPrismWSContext: TValue);
   protected
   public
     const
@@ -3850,9 +3848,6 @@ begin if FAppBase = '/' then begin FAppBase := Value; if FAppBase.EndsWith('/') 
 function TPrismServerTCP.MimesType: TPrismServerFileExtensions; begin Result := FMimesType; end;
 
 procedure TPrismServerTCP.OnSessionChange(EnumChangeType: TValue; varSession: TValue);
-begin end;
-
-procedure TPrismServerTCP.Exec_OpenForm(varPrismHTTPRequest, varPrismWSContext: TValue);
 begin end;
 
 procedure TPrismServerTCP.Exec_RouteAuth(varPrismHTTPRequest: TValue);
