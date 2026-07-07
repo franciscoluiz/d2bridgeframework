@@ -425,10 +425,16 @@ var
 begin
  try
   if FBody = '' then
-   if TryStrToInt(ContentLength, vContentLength) then
-    if Assigned(IOHandler) then
+  begin
+   if Assigned(IOHandler) then
+   begin
+    if TryStrToInt(ContentLength, vContentLength) then
      if vContentLength > 0 then
       FBody:= PrismBaseClass.PrismServer.ReadBodyStringFromData(IOHandler, vContentLength);
+   end
+   else if Content <> '' then
+    FBody:= Content;
+  end;
  except
  end;
 

@@ -3567,6 +3567,7 @@ end;
 function TPrismServerTCP.ReadBodyStringFromData(Sock: TCrtSocket; ContentLength: Integer): string;
 var BodyBytes: TBytes;
 begin
+  D2Log('WARNING: ReadBodyStringFromData called in mORMot2 — body should be read from Ctxt.InContent, not from TCrtSocket (body already consumed by THttpServer). Returning empty string.');
   Result := '';
   if (ContentLength > 0) and Assigned(Sock) then
   begin SetLength(BodyBytes, ContentLength); Sock.SockInRead(@BodyBytes[0], ContentLength, true); Result := TEncoding.UTF8.GetString(BodyBytes); end;
