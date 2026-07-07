@@ -38,7 +38,7 @@ uses
   Classes, Generics.Collections, SysUtils,
   DateUtils, D2Bridge.JSON, Rtti
 {$IFDEF USE_MORMOT2}
-  , mormot.net.sock
+  , mormot.net.sock, mormot.net.ws.server
 {$ELSE}
   , IdContext
 {$ENDIF}
@@ -106,7 +106,7 @@ type
    FConnectionStatus: TSessionConnectionStatus;
    FDisconnect: Boolean;
    FDisconnectStartTime: TDateTime;
-    FWebSocketContext: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF};
+    FWebSocketContext: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF};
    FSessionTimer: TPrismTimer;
    function GetD2BridgeBaseClass: TObject;
    procedure SetD2BridgeBaseClass(AD2BridgeBaseClass: TObject);
@@ -126,9 +126,9 @@ type
    function GetLanguageNav: TD2BridgeLang;
    procedure SetLanguageNav(const Value: TD2BridgeLang);
    function GetFormatSettings: TFormatSettings;
-   function GetWebSocketContext: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF};
+   function GetWebSocketContext: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF};
    procedure SetFormatSettings(const Value: TFormatSettings);
-   procedure SetWebSocketContext(const Value: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF});
+   procedure SetWebSocketContext(const Value: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF});
    procedure OnTimerObserver;
    procedure RegisterEvent(AEventName: string; AEvent: TOnEventProc);
    procedure UnRegisterEvent(AEventName: string; AEvent: TOnEventProc);
@@ -272,7 +272,7 @@ type
    property Data: TObject read GetData write SetData;
    property FileDownloads: TDictionary<string, string> read GetFileDownloads;
    property FormatSettings: TFormatSettings read GetFormatSettings write SetFormatSettings;
-   property WebSocketContext: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF} read GetWebSocketContext write SetWebSocketContext;
+   property WebSocketContext: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF} read GetWebSocketContext write SetWebSocketContext;
  end;
 
 const
@@ -1364,7 +1364,7 @@ begin
   Result:= 0;
 end;
 
-function TPrismSession.GetWebSocketContext: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF};
+function TPrismSession.GetWebSocketContext: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF};
 begin
  Result := FWebSocketContext;
 end;
@@ -2002,7 +2002,7 @@ begin
  FFormatSettings:= Value;
 end;
 
-procedure TPrismSession.SetWebSocketContext(const Value: {$IFDEF USE_MORMOT2}TObject{$ELSE}TIdContext{$ENDIF});
+procedure TPrismSession.SetWebSocketContext(const Value: {$IFDEF USE_MORMOT2}TWebSocketServerSocket{$ELSE}TIdContext{$ENDIF});
 begin
  FWebSocketContext := Value;
 end;
