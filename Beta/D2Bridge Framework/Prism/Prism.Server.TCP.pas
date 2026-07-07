@@ -3573,7 +3573,10 @@ begin
 end;
 
 function TPrismServerTCP.ReadBodyStreamFromData(Sock: TCrtSocket; ContentLength: Integer): TMemoryStream;
-begin Result := nil; end;
+begin
+ D2Log('WARNING: ReadBodyStreamFromData called in mORMot2 — body should be read from Ctxt.InContent, not from TCrtSocket (body already consumed by THttpServer). Returning nil.');
+ Result := nil;
+end;
 
 procedure TPrismServerTCP.SendWebSocketMessage(AMessage: string; APrismSession: IPrismSession);
 var vSession: TPrismSession; vWSProcess: TWebSocketProcessServer; vSessionUUID: string; vFrame: TWebSocketFrame;
