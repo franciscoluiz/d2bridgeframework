@@ -3473,7 +3473,98 @@ end;
 {$ENDIF}
 
 procedure TPrismServerTCP.ReadMultipartFormData(Sock: TCrtSocket; Boundary: String; ContentLength: Integer; AFiles: TStrings; ASender: string; PrismWSContext: TPrismWebSocketContext);
-begin end;
+var
+ vBodyBytes: TBytes;
+ vBodyRaw: RawUTF8;
+ vBoundaryFull: RawUTF8;
+ vSearchPos, vPartStart, vPartEnd: Integer;
+ vHeadersEnd, vContentStart, vContentEnd: Integer;
+ vUploadFilename, vFileNameStr: string;
+ vFileStream: TMemoryStream;
+ vZ: Integer;
+ vPartHeaders: string;
+ vFiles: TStrings;
+begin
+ if (ContentLength <= 0) or (not Assigned(Sock)) then Exit;
+ SetLength(vBodyBytes, ContentLength);
+ Sock.SockInRead(@vBodyBytes[0], ContentLength, true);
+ SetString(vBodyRaw, PAnsiChar(vBodyBytes), Length(vBodyBytes));
+ vFiles := TStringList.Create;
+ try
+  vBoundaryFull := StringToUtf8('--' + Boundary);
+  vSearchPos := 1;
+  while vSearchPos < Length(vBodyRaw) do
+  begin
+   vPartStart := PosEx(vBoundaryFull, vBodyRaw, vSearchPos);
+   if vPartStart = 0 then Break;
+   if (vPartStart + Length(vBoundaryFull) + 1 <= Length(vBodyRaw)) and
+      (vBodyRaw[vPartStart + Length(vBoundaryFull)] = '-') and
+      (vBodyRaw[vPartStart + Length(vBoundaryFull) + 1] = '-') then
+    Break;
+   Inc(vPartStart, Length(vBoundaryFull));
+   while (vPartStart <= Length(vBodyRaw)) and (vBodyRaw[vPartStart] in [#13, #10]) do
+    Inc(vPartStart);
+   vPartEnd := PosEx(vBoundaryFull, vBodyRaw, vPartStart);
+   if vPartEnd = 0 then Break;
+   vContentEnd := vPartEnd - 1;
+   while (vContentEnd >= vPartStart) and (vBodyRaw[vContentEnd] in [#13, #10]) do
+    Dec(vContentEnd);
+   vHeadersEnd := 0;
+   for vZ := vPartStart to vContentEnd - 3 do
+    if (vBodyRaw[vZ] = #13) and (vBodyRaw[vZ+1] = #10) and
+       (vBodyRaw[vZ+2] = #13) and (vBodyRaw[vZ+3] = #10) then
+    begin vHeadersEnd := vZ; Break; end;
+   if vHeadersEnd = 0 then
+    for vZ := vPartStart to vContentEnd - 1 do
+     if (vBodyRaw[vZ] = #10) and (vBodyRaw[vZ+1] = #10) then
+     begin vHeadersEnd := vZ; Break; end;
+   if vHeadersEnd = 0 then
+   begin vSearchPos := vPartEnd; Continue; end;
+   vPartHeaders := UTF8ToString(Copy(vBodyRaw, vPartStart, vHeadersEnd - vPartStart));
+   vUploadFilename := '';
+   vZ := Pos('filename="', vPartHeaders);
+   if vZ > 0 then
+   begin
+    vUploadFilename := Copy(vPartHeaders, vZ + 10);
+    vZ := Pos('"', vUploadFilename);
+    if vZ > 0 then
+     vUploadFilename := Copy(vUploadFilename, 1, vZ - 1);
+   end;
+   if vUploadFilename = '' then
+   begin vSearchPos := vPartEnd; Continue; end;
+   vContentStart := vHeadersEnd + 4;
+   if (vHeadersEnd + 1 <= Length(vBodyRaw)) and
+      (vBodyRaw[vHeadersEnd+1] = #10) and
+      (vBodyRaw[vHeadersEnd] <> #13) then
+    vContentStart := vHeadersEnd + 2;
+   if vContentEnd >= vContentStart then
+   begin
+    vFileStream := TMemoryStream.Create;
+    try
+     vFileStream.Write(vBodyRaw[vContentStart], vContentEnd - vContentStart + 1);
+     vFileNameStr := vUploadFilename;
+     vZ := 1;
+     while FileExists(PrismWSContext.PrismSession.PathSession + vFileNameStr) do
+     begin
+      vFileNameStr := Format('%s%d%s', [ChangeFileExt(vUploadFilename, ''), vZ, ExtractFileExt(vUploadFilename)]);
+      Inc(vZ);
+     end;
+     ForceDirectories(ExtractFileDir(PrismWSContext.PrismSession.PathSession));
+     vFileStream.SaveToFile(PrismWSContext.PrismSession.PathSession + vFileNameStr);
+     vFiles.Add(PrismWSContext.PrismSession.PathSession + vFileNameStr);
+    finally
+     vFileStream.Free;
+    end;
+   end;
+   vSearchPos := vPartEnd;
+  end;
+  DoUploadFile(vFiles, PrismWSContext.PrismSession, PrismWSContext.FormUUID, ASender);
+  if Assigned(AFiles) then
+   AFiles.Text := vFiles.Text;
+ finally
+  vFiles.Free;
+ end;
+end;
 
 function TPrismServerTCP.ReadBodyStringFromData(Sock: TCrtSocket; ContentLength: Integer): string;
 var BodyBytes: TBytes;
