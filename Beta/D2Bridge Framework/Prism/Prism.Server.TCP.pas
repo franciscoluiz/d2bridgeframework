@@ -3867,23 +3867,73 @@ function TWebSocketIOHandlerHelper.ReadByte: Byte;
 begin Result := 0; if Assigned(FSock) then FSock.SockInRead(@Result, 1, true); end;
 
 function TWebSocketIOHandlerHelper.ReadBytes: TArray<byte>;
-var l: Byte; b: array [0..7] of Byte; i: integer; DecodedSize: {$IFNDEF FPC}Int64{$ELSE}SizeInt{$ENDIF}; Mask: array [0..3] of Byte;
+var
+  b0, b1, l: Byte;
+  b: array [0..7] of Byte;
+  i, DecodedSize: {$IFNDEF FPC}Int64{$ELSE}SizeInt{$ENDIF};
+  Mask: array [0..3] of Byte;
+  Fin, Masked, MessageComplete: Boolean;
+  Opcode: Byte;
+  FrameData: TArray<byte>;
 begin
-  try Result := [];
-    if ReadByte = $81 then begin
-      l := ReadByte;
+  Result := [];
+  MessageComplete := False;
+  try
+    while not MessageComplete do
+    begin
+      b0 := ReadByte;
+      Fin := (b0 and $80) <> 0;
+      Opcode := b0 and $0F;
+      b1 := ReadByte;
+      Masked := (b1 and $80) <> 0;
+      l := b1 and $7F;
       case l of
-        $FE: begin b[1]:=ReadByte; b[0]:=ReadByte; b[2]:=0; b[3]:=0; b[4]:=0; b[5]:=0; b[6]:=0; b[7]:=0; DecodedSize := PInt64(@b)^; end;
-        $FF: begin b[7]:=ReadByte; b[6]:=ReadByte; b[5]:=ReadByte; b[4]:=ReadByte; b[3]:=ReadByte; b[2]:=ReadByte; b[1]:=ReadByte; b[0]:=ReadByte; DecodedSize := PInt64(@b)^; end;
-        else DecodedSize := l - 128;
+        126:
+          begin
+            b[1]:=ReadByte; b[0]:=ReadByte; b[2]:=0; b[3]:=0; b[4]:=0; b[5]:=0; b[6]:=0; b[7]:=0;
+            DecodedSize := PInt64(@b)^;
+          end;
+        127:
+          begin
+            b[7]:=ReadByte; b[6]:=ReadByte; b[5]:=ReadByte; b[4]:=ReadByte; b[3]:=ReadByte; b[2]:=ReadByte; b[1]:=ReadByte; b[0]:=ReadByte;
+            DecodedSize := PInt64(@b)^;
+          end;
+        else
+          DecodedSize := l;
       end;
-      Mask[0]:=ReadByte; Mask[1]:=ReadByte; Mask[2]:=ReadByte; Mask[3]:=ReadByte;
-      if DecodedSize < 1 then begin Result := []; Exit; end;
-      SetLength(Result, DecodedSize);
-      if Assigned(FSock) then FSock.SockInRead(@Result[0], DecodedSize, true);
-      for i := 0 to DecodedSize-1 do Result[i] := Result[i] xor Mask[i mod 4];
+      if Masked then
+      begin
+        Mask[0]:=ReadByte; Mask[1]:=ReadByte; Mask[2]:=ReadByte; Mask[3]:=ReadByte;
+      end;
+      FrameData := [];
+      if DecodedSize > 0 then
+      begin
+        SetLength(FrameData, DecodedSize);
+        if Assigned(FSock) then FSock.SockInRead(@FrameData[0], DecodedSize, true);
+        if Masked then
+          for i := 0 to DecodedSize-1 do
+            FrameData[i] := FrameData[i] xor Mask[i mod 4];
+      end;
+      case Opcode of
+        $0, $1, $2:
+          begin
+            Result := Result + FrameData;
+            if Fin then
+              MessageComplete := True;
+          end;
+        $8:
+          begin
+            Result := [];
+            MessageComplete := True;
+          end;
+        $9, $A: ;
+      else
+        ;
+      end;
     end;
-  except Result := []; end;
+  except
+    Result := [];
+  end;
 end;
 
 function TWebSocketIOHandlerHelper.ReadString: string;
