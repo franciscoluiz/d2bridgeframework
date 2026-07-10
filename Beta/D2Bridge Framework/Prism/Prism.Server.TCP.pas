@@ -3019,6 +3019,18 @@ begin
       Result := HTTP_SUCCESS; Exit;
     end;
 
+    if (vPrismRequest.WebMethod = wmtHEAD) and (AnsiPos('reconnect', vPrismRequest.Path) > 0) then
+    begin
+      if PrismBaseClass.Sessions.Exist(vPrismRequest.QueryParams.Values['prismsession'], vPrismRequest.QueryParams.Values['token']) then
+        Result := HTTP_ACCEPTED
+      else
+        Result := HTTP_UNAUTHORIZED;
+{$IFDEF D2DOCKER}
+      Ctxt.AddOutHeader(['D2DockerInstance: ' + PrismBaseClass.ServerController.D2DockerInstanceAlias]);
+{$ENDIF}
+      Exit;
+    end;
+
     if (AnsiPos(FpathUpload, vPrismRequest.Path) > 0) or vPrismRequest.IsUploadFile then
     begin
       if (vPrismRequest.Boundary <> '') and TryStrToInt(vPrismRequest.ContentLength, vContentLengthInt) and (vContentLengthInt > 0) then
