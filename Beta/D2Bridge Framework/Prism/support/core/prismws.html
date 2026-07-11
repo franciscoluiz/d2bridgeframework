@@ -88,6 +88,8 @@ function startPrismServer() {
                             } else
                             if (response.status === 200) {
                                 location.reload(true);
+                            } else {
+                                setTimeout(checkSiteStatus, 1000);
                             }
 
                         })
