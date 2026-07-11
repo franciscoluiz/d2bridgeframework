@@ -3158,7 +3158,7 @@ begin
       Result := HTTP_SUCCESS; Exit;
     end;
 
-    if AnsiPos(FpathDownload+'?file=', vPrismRequest.Path) > 0 then
+    if (AnsiPos(FpathDownload, vPrismRequest.Path) > 0) and (vPrismRequest.QueryParams.Values['file'] <> '') then
     begin
       vPrismResponse := TPrismHTTPResponse.Create;
       vPrismWSContext := TPrismWebSocketContext.Create;
