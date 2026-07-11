@@ -3288,6 +3288,14 @@ begin
 
     if PrismBaseClass.Rest.Options.EnableRESTServerExternal and Assigned(vPrismRequest.Route) then
     begin
+      if (vPrismRequest.Route as TD2BridgeRestRoute).RequireJWT and (not vPrismRequest.JWTvalid) then //Route not Authenticated
+      begin
+        Ctxt.OutContentType := 'application/json; charset=UTF-8';
+        Ctxt.OutContent := StringToUtf8('{"error":"forbidden","error_description":"You are not authorized to access this endpoint."}');
+        Result := HTTP_FORBIDDEN;
+        Exit;
+      end;
+
       vPrismResponse := TPrismHTTPResponse.Create;
       vPrismResponse.ContentType := vPrismRequest.ContentType;
       try
@@ -3392,6 +3400,9 @@ var
   vCookies, vCookieParts: TStrings;
   vCookiePair, vCookiesRaw: string;
   vBoundaryPos: Integer;
+  vAuthValue, vEncoded, vDecoded: string;
+  vAuthPos, vAuthEnd, I: Integer;
+  vPayLoad: TJSONObject;
 begin
   Result := TPrismHTTPRequest.Create;
   vMethod := UpperCase(ARequest.Method);
@@ -3462,6 +3473,68 @@ begin
        end;
     end;
   finally vCookies.Free; vCookieParts.Free; end;
+  // Authorization header parsing (Basic / Bearer) — mirrors Indy ParseHeaders
+  if Pos('authorization:', LowerCase(Result.RawHeaders.Text)) > 0 then
+  begin
+    vAuthPos := Pos('authorization:', LowerCase(Result.RawHeaders.Text)) + 14;
+    vAuthValue := Copy(Result.RawHeaders.Text, vAuthPos, MaxInt);
+    vAuthEnd := Pos(#13#10, vAuthValue);
+    if vAuthEnd > 0 then
+      vAuthValue := Copy(vAuthValue, 1, vAuthEnd - 1)
+    else
+    begin
+      vAuthEnd := Pos(#10, vAuthValue);
+      if vAuthEnd > 0 then
+        vAuthValue := Copy(vAuthValue, 1, vAuthEnd - 1);
+    end;
+    vAuthValue := Trim(vAuthValue);
+    Result.Authorization := vAuthValue;
+
+    if Pos(UpperCase('basic '), UpperCase(vAuthValue)) = 1 then
+    begin
+      Result.AuthorizationType := 'Basic';
+      vEncoded := Trim(Copy(vAuthValue, 7, MaxInt));
+      {$IFDEF FPC}
+      vDecoded := DecodeStringBase64(vEncoded);
+      {$ELSE}
+      vDecoded := TNetEncoding.Base64.Decode(vEncoded);
+      {$ENDIF}
+      I := Pos(':', vDecoded);
+      if I > 0 then
+      begin
+        Result.User := Copy(vDecoded, 1, I - 1);
+        Result.Password := Copy(vDecoded, I + 1);
+      end;
+    end else
+    if Pos(UpperCase('bearer '), UpperCase(vAuthValue)) = 1 then
+    begin
+      Result.AuthorizationType := 'Bearer';
+      Result.JWTtoken := Trim(Copy(vAuthValue, 8, MaxInt));
+
+      if Pos(Uppercase('"token_type":"refresh"'),
+         Uppercase(PrismBaseClass.Options.Security.Rest.JWTAccess.Payload(Result.JWTtoken))) > 0 then
+      begin
+        Result.JWTvalid := PrismBaseClass.Options.Security.Rest.JWTRefresh.Valid(Result.JWTtoken);
+        Result.JWTPayLoad := PrismBaseClass.Options.Security.Rest.JWTRefresh.Payload(Result.JWTtoken);
+        Result.JWTTokenType := TSecurityJWTTokenType.JWTTokenRefresh;
+      end else
+      begin
+        Result.JWTvalid := PrismBaseClass.Options.Security.Rest.JWTAccess.Valid(Result.JWTtoken);
+        Result.JWTPayLoad := PrismBaseClass.Options.Security.Rest.JWTAccess.Payload(Result.JWTtoken);
+      end;
+
+      if Result.JWTPayLoad <> '' then
+      begin
+        try
+          vPayLoad := TJSONObject.ParseJSONValue(Result.JWTPayLoad) as TJSONObject;
+          Result.JWTsub := vPayLoad.GetValue('sub', '');
+          Result.JWTidentity := {$IFDEF FPC}DecodeStringBase64{$ELSE}TNetEncoding.Base64.Decode{$ENDIF}(vPayLoad.GetValue('identity', ''));
+          vPayLoad.Free;
+        except
+        end;
+      end;
+    end;
+  end;
   if PrismBaseClass.Options.Security.Enabled then
   begin
     if PrismBaseClass.Options.Security.IP.IPv4BlackList.ExistIP(Result.ClientIP) then
